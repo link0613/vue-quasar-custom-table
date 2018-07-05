@@ -1,6 +1,6 @@
 <template>
   <q-page class="flex flex-center">
-    <img alt="Quasar logo" src="~assets/quasar-logo-full.svg">
+    <myTable></myTable>
   </q-page>
 </template>
 
@@ -8,7 +8,11 @@
 </style>
 
 <script>
+import myTable from '../components/myTable'
 export default {
-  name: 'PageIndex'
+  name: 'PageIndex',
+  components: {
+    myTable
+  },
 }
 </script>
