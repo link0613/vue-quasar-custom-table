@@ -19,6 +19,7 @@ export default {
       loading: false,
       serverPagination: {
         page: 1,
+        rowsPerPage: 20,
         rowsNumber: 100 // specifying this determines pagination is server-side
       },
 
@@ -44,11 +45,9 @@ export default {
       this.loading = true
 
       // (using Axios here, but can be anything; parameters vary based on backend implementation)
-      console.log(pagination)
       axios
       .get(`https://randomuser.me/api/?results=${pagination.rowsPerPage}&page=${pagination.page}`)
       .then(({ data }) => {
-        console.log (data)
         // updating pagination to reflect in the UI
         this.serverPagination = pagination
 
@@ -56,15 +55,15 @@ export default {
 
         // then we update the rows with the fetched ones
         this.serverData =  data.results
-        // for (let i=0; i<this.serverPagination.rowsNumber; i++) {
-        //   this.serverData[i].username = data.results[i].username
-        //   this.serverData[i].city = data.results[i].city
-        //   this.serverData[i].phone = data.results[i].phone
-        // }
-
 
         // finally we tell QTable to exit the "loading" state
         this.loading = false
+        setTimeout(() => {
+          let td = this.$el.querySelectorAll('td')
+          for (let i = 0; i < td.length; i++) {
+              td[i].style.height = '30px'
+          }
+        }, 0);
       })
       .catch(error => {
         // there's an error... do SOMETHING
@@ -72,13 +71,46 @@ export default {
         // we tell QTable to exit the "loading" state
         this.loading = false
       })
+    },
+    scrolling (e) {
+      if (e.path[1] == this.$el.querySelector('table')){
+        console.log(e.path[0].scrollTop, e.path[0].scrollHeight)
+      }
     }
   },
+  beforeMount () {
+    document.addEventListener('scroll', this.scrolling, true)
+  },
+  beforeDestroy () {
+    document.removeEventListener('scroll', this.scrolling, true)
+  },
   mounted () {
-    // once mounted, we need to trigger the initial server data fetch
     this.request({
       pagination: this.serverPagination,
     })
-  }
+
+  },
+
+
+  
 }
 </script>
+<style>
+  tbody {
+      display:block;
+      height: 150px !important;
+      overflow:auto;
+  }
+  thead, tbody tr {
+      display:table;
+      width:100%;
+      table-layout:fixed;/* even columns width , fix width of table too*/
+  }
+  thead {
+      width: calc( 100% - 1em )/* scrollbar is average 1em/16px width, remove it from thead width */
+  }
+  table {
+      width:400px;
+  }
+ 
+</style>
