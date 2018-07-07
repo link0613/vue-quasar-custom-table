@@ -3,7 +3,7 @@
   <q-scroll-area
     @scroll="scrolling"
     ref="scrollArea"
-    style="width: 100%; height: 200px; margin-top: 60px;"
+    :style="`width: 100%; height: ${rowHeight*serverPagination.rowsPerPage}px; margin-top: 60px;`"
     :thumb-style="{
       right: '4px',
       borderRadius: '5px',
@@ -39,7 +39,7 @@ export default {
         rowsPerPage: 5,
         rowsNumber: 30 // specifying this determines pagination is server-side
       },
-      rowHeight: 30, 
+      rowHeight: 40, 
       serverData: [],
       collectedData: [],
       currentPage: 0, // from 0
@@ -93,23 +93,22 @@ export default {
     renderData() {
       let tempData = [{}]
       let index = this.currentPage * this.serverPagination.rowsPerPage
-      for (let i = 0; i < this.serverPagination.rowsPerPage * 2; i++) {
+      for (let i = 0; i < this.serverPagination.rowsPerPage * 2 ; i++) {
         tempData.push(this.collectedData[index + i])
       }
       this.serverData = tempData
 
       setTimeout(() => {
         let tr = this.$el.querySelectorAll('tr')
-        for (let i = 2; i < tr.length - 1; i++) {
+        for (let i = 2; i < tr.length ; i++) {
             tr[i].style.height = `${this.rowHeight}px`
         }
 
         let vTop = this.currentPage * this.rowHeight * this.serverPagination.rowsPerPage
         //this.$refs['virtualTop'].style.height = `${vTop}px`
         tr[1].style.height = `${vTop}px`
-        tr[1].style.display = 'none'
-        tr[1].style.display = this.currentPage === 0 ? 'none' : ''
-        this.$refs['virtualBottom'].style.height = `${(this.serverPagination.rowsNumber - this.serverPagination.rowsPerPage) * this.rowHeight -vTop}px`
+        tr[1].style.display = this.currentPage === 0 ? 'none' : 'block'
+        this.$refs['virtualBottom'].style.height = `${(this.serverPagination.rowsNumber - this.serverData.length + 1) * this.rowHeight -vTop}px`
 
       }, 0);
 
@@ -144,7 +143,8 @@ export default {
           this.requestSource = request.source
           
         }
-        if (!this.collectedData[index + this.serverPagination.rowsPerPage]['email']) {
+        if (index + this.serverPagination.rowsPerPage < this.serverPagination.rowsNumber  &&
+          !this.collectedData[index + this.serverPagination.rowsPerPage]['email']) {
           rendered = true
           if (this.requestSource) {
             this.requestSource.cancel()
@@ -212,5 +212,8 @@ export default {
   }
   .q-table-bottom {
     display: none;
+  }
+  .q-scrollarea-thumb {
+    transition: none !important;
   }
 </style>
