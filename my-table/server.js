@@ -50,6 +50,62 @@ const rowsTemplate = [
     'name': 'Ahmed',
     'phone': '32422344',
     'adress': '6 DS 4'
+  },
+  {
+    'id': 'hsdgs',
+    'email': 's@aadw.com',
+    'name': 'John',
+    'phone': '23463421',
+    'adress': 'dss DS SSS'
+  },
+  {
+    'id': 'njdgfd',
+    'email': 'thsdf@43.com',
+    'name': 'Pavle',
+    'phone': '63426234',
+    'adress': 'AAD sdsdf SSS'
+  },
+  {
+    'id': 'dhdsaf',
+    'email': 'fgsdshsd@1ss.com',
+    'name': 'Xin',
+    'phone': '89546464',
+    'adress': '2 DS 2'
+  },
+  {
+    'id': 'gsf',
+    'email': 'vsdfs@sdsdf.com',
+    'name': 'Ahmed',
+    'phone': '32422344',
+    'adress': '6 DS 4'
+  },
+  {
+    'id': '1233ds',
+    'email': 'mdgdgf@aadw.com',
+    'name': 'John',
+    'phone': '23463421',
+    'adress': 'dss DS SSS'
+  },
+  {
+    'id': 'hjsd2d',
+    'email': 'sdffgsdf@43.com',
+    'name': 'Pavle',
+    'phone': '63426234',
+    'adress': 'AAD sdsdf SSS'
+  },
+  {
+    'id': 'dhdsaf',
+    'email': 'fgsdshsd@1ss.com',
+    'name': 'Xin',
+    'phone': '89546464',
+    'adress': '2 DS 2'
+  },
+  {
+    'id': 'otdfgs',
+    'email': 'vsdfs@sdsdf.com',
+    'name': 'Ahmed',
+    'phone': '32422344',
+    'adress': '6 DS 4'
   }
 ]
 app.use(express.static(path.join(__dirname, '/dist/spa-mat/')))
