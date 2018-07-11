@@ -108,10 +108,10 @@ const rowsTemplate = [
     'adress': '6 DS 4'
   }
 ]
-app.use(express.static(path.join(__dirname, '/dist/spa-mat/')))
+app.use(express.static(path.join(__dirname, '/my-table/dist/spa-mat/')))
 
 app.get('/', function (req, res) {
-  res.sendFile(path.join(`${__dirname}/dist/spa-mat/index.html`))
+  res.sendFile(path.join(`${__dirname}/my-table/dist/spa-mat/index.html`))
 })
 
 

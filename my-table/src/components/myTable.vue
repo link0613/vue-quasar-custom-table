@@ -56,7 +56,7 @@ export default {
       scrollOffset: 0,
       scrollUnit: 1,
       scrollUnitOffset: 0,
-      freezeRows: 0,
+      freezeRows: 2,
       requestAPI: null,
 
       columns: [
@@ -67,9 +67,9 @@ export default {
           align: 'left',
           field: 'email',
           sortable: false,
-          width: '25%'
+          width: '15%'
         },
-        { name: 'email', label: 'E-Mail', field: 'email', sortable: false, width: '25%' },
+        { name: 'email', label: 'E-Mail', field: 'email', sortable: false, width: '35%', align: 'left',},
         { name: 'name', label: 'Name', field: 'name', sortable: false, align: 'left', width: '25%' },
         { name: 'phone', label: 'Phone', field: 'phone', sortable: false, align: 'left', width: '25%' }
 
@@ -106,7 +106,7 @@ export default {
     },
 
     getSpaceTop() {
-      return this.currentPage * this.rowHeight * this.serverPagination.rowsPerPage
+          return this.currentPage * this.rowHeight * this.serverPagination.rowsPerPage
     },
 
     getSpaceBottom() {
@@ -116,7 +116,6 @@ export default {
 
     renderData() {
       let index = this.currentPage * this.serverPagination.rowsPerPage
-
       for (let i = 0; i < this.serverPagination.rowsPerPage * 2 ; i++) {
         //tempData.push(this.collectedData[index + i])
         if (this.serverData.length < this.serverPagination.rowsPerPage * 2) {
@@ -126,22 +125,20 @@ export default {
         }
         
       }
-      //this.serverData = tempData
-      
-
-      // let vTop = this.currentPage * this.rowHeight * this.serverPagination.rowsPerPage
-      // console.log('vTop', vTop)
-      // this.$refs['virtualTop'].style.height = `${vTop}px`
-      // this.$refs['virtualBottom'].style.height = `${(this.serverPagination.rowsNumber - this.serverData.length) * this.rowHeight -vTop}px`
-
-
+      let thArray = this.$refs.table.$el.querySelectorAll('th')
+      for (let i = 0; i < this.columns.length; i++) {
+        thArray[i].style.width = this.columns[i].width
+      }
     },
 
 
 
     scrolling (e) {
       const totalHeight = this.rowHeight * this.serverPagination.rowsNumber
-      if (!e.position || e.position >= totalHeight) return
+      if (!e.position || e.position >= totalHeight) {
+        //this.$refs.scrollArea.setScrollPosition(totalHeight)
+        return
+      }
 
 
       this.scrollUnit = totalHeight * 1.0 / this.serverPagination.rowsNumber
@@ -213,7 +210,6 @@ export default {
     this.collectedData = []
     for (let i = 0; i < this.serverPagination.rowsNumber + this.serverPagination.rowsPerPage * 2; i ++) {
       this.collectedData.push({id:null, email:'' , name:'', phone:''})
-      console.log(i)
     }
     const request = this.request({
       pagination: this.serverPagination,
@@ -221,8 +217,6 @@ export default {
     this.requestSource = request.source
 
   },
-
-
   
 }
 </script>
