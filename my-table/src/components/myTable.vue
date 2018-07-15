@@ -60,6 +60,7 @@ export default {
       requestAPI: null,
 
       columns: [
+        { name: 'no', label: 'No', field: 'no', sortable: false, width: '5%', align: 'left'},
         {
           name: 'id',
           required: true,
@@ -69,7 +70,7 @@ export default {
           sortable: false,
           width: '15%'
         },
-        { name: 'email', label: 'E-Mail', field: 'email', sortable: false, width: '35%', align: 'left',},
+        { name: 'email', label: 'E-Mail', field: 'email', sortable: false, width: '30%', align: 'left',},
         { name: 'name', label: 'Name', field: 'name', sortable: false, align: 'left', width: '25%' },
         { name: 'phone', label: 'Phone', field: 'phone', sortable: false, align: 'left', width: '25%' }
 
@@ -145,7 +146,7 @@ export default {
       this.scrollUnitOffset = (e.position * 1000 % (this.scrollUnit * 1000)) / 1000.0
       const vScrollOffset = e.position % (this.scrollUnit * this.serverPagination.rowsPerPage)
 
-      
+       
       
       const vCurrentPage = parseInt(e.position / totalHeight * (this.serverPagination.rowsNumber * 1.0 / this.serverPagination.rowsPerPage))
       if (this.scrollOffset == vScrollOffset && vCurrentPage - this.currentPage == 1) {
@@ -206,16 +207,17 @@ export default {
     }
   },
 
-  mounted () {
+  beforeMount() {
     this.collectedData = []
     for (let i = 0; i < this.serverPagination.rowsNumber + this.serverPagination.rowsPerPage * 2; i ++) {
-      this.collectedData.push({id:null, email:'' , name:'', phone:''})
-    }
+      this.collectedData.push({num: i + 1, id: null, email: '' , name: '', phone: ''})
+    }    
+  },
+  mounted () {
     const request = this.request({
       pagination: this.serverPagination,
     })
     this.requestSource = request.source
-
   },
   
 }

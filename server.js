@@ -116,13 +116,15 @@ app.get('/', function (req, res) {
 
 
 app.get('/api', function (req, res) {
-  // let page = req.param('page')
-  // let rowPerPage = req.param('row_per_page')
+  let page = req.param('page')
+  let rowPerPage = req.param('row_per_page')
   let rows = req.param('rows')
   let result = []
   for (let i = 0; i < rows; i++) {
     let index = parseInt(Math.random() * rowsTemplate.length)
-    result.push(rowsTemplate[index])
+    let row = JSON.parse(JSON.stringify(rowsTemplate[index]))
+    row ['no'] = (page - 1) * rowPerPage + 1 + i
+    result.push(row)
   }
   res.send(result)
 })
